@@ -18,9 +18,19 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'bmp'}
 
 # Inisialisasi model saat startup (lebih efisien)
 print("Loading posture detection model...")
+predictor = None
+
 try:
-    predictor = PosturePredictor(model_path='posture_classification_model.h5')
-    print("✅ Model loaded successfully!")
+    if PosturePredictor is not None:
+        # Check if model file exists
+        model_path = 'posture_classification_model.h5'
+        if os.path.exists(model_path):
+            predictor = PosturePredictor(model_path=model_path)
+            print("✅ Model loaded successfully!")
+        else:
+            print(f"❌ Model file not found: {model_path}")
+    else:
+        print("❌ PosturePredictor class not available")
 except Exception as e:
     print(f"❌ Error loading model: {e}")
     predictor = None
@@ -43,6 +53,29 @@ def get_posture_analysis(predicted_class, confidence):
                 'Pertahankan posisi duduk dan berdiri yang benar',
                 'Lakukan stretching ringan secara rutin'
             ],
+            'exercise_program': {
+                {
+                    'name':'Full body stretch',
+                    'set':1,
+                    'rep':None,
+                    'duration':120,
+                    'rest':None
+                    },
+                {
+                    'name':'Shoulder circles',
+                    'set':2,
+                    'rep':12,
+                    'duration':None,
+                    'rest':10
+                    },
+                {
+                    'name':'Deep breathing',
+                    'set':1,
+                    'rep':None,
+                    'duration':120,
+                    'rest':None
+                    },
+            },
             'severity': 'low',
             'color': '#4CAF50'  # Green
         },
@@ -60,6 +93,36 @@ def get_posture_analysis(predicted_class, confidence):
                 'Wall angel exercise untuk membuka dada',
                 'Konsultasi dengan fisioterapis jika nyeri berlanjut'
             ],
+            'exercise_program': {
+                {
+                    'name':'Chin tucks',
+                    'set':2,
+                    'rep':10,
+                    'duration':None,
+                    'rest':15
+                    },
+                {
+                    'name':'Neck retraction',
+                    'set':2,
+                    'rep':8,
+                    'duration':None,
+                    'rest':15
+                    },
+                {
+                    'name':'Shoulder rolls',
+                    'set':2,
+                    'rep':12,
+                    'duration':None,
+                    'rest':10
+                    },
+                {
+                    'name':'Deep breathing',
+                    'set':1,
+                    'rep':None,
+                    'duration':60,
+                    'rest':None
+                    },
+            },
             'severity': 'medium',
             'color': '#FF9800'  # Orange
         },
@@ -77,6 +140,36 @@ def get_posture_analysis(predicted_class, confidence):
                 'Posterior pelvic tilt exercise',
                 'Hindari duduk terlalu lama tanpa istirahat'
             ],
+            'exercise_program': {
+                {
+                    'name':'Pelvic tilts',
+                    'set':2,
+                    'rep':10,
+                    'duration':None,
+                    'rest':15
+                    },
+                {
+                    'name':'Knee hugs',
+                    'set':1,
+                    'rep':None,
+                    'duration':30,
+                    'rest':10
+                    },
+                {
+                    'name':'Cat-cow Stretch',
+                    'set':1,
+                    'rep':None,
+                    'duration':60,
+                    'rest':15
+                    },
+                {
+                    'name':'Deep breathing',
+                    'set':1,
+                    'rep':None,
+                    'duration':60,
+                    'rest':None
+                    },
+            },
             'severity': 'medium',
             'color': '#F44336'  # Red
         }
@@ -242,6 +335,8 @@ if __name__ == '__main__':
     # Create uploads directory if not exists
     os.makedirs('uploads', exist_ok=True)
     
-    # Run the app
+    # Get port from environment variable (Railway will provide this)
     port = int(os.environ.get('PORT', 5000))
+    
+    # Run the app in production mode
     app.run(host='0.0.0.0', port=port, debug=False)
