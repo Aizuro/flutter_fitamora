@@ -1,4 +1,4 @@
-FROM python:3.9-bullseye  # ✅ Gunakan bullseye (Debian 11) yang stabil
+FROM python:3.9-bullseye 
 
 # Install system dependencies for OpenCV
 RUN apt-get update && apt-get install -y \
