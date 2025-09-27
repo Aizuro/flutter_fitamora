@@ -25,3 +25,7 @@ protobuf==3.20.3
 absl-py==1.4.0
 joblib==1.3.2
 threadpoolctl==3.2.0
+
+# ✅ TAMBAH INI untuk mediapipe compatibility
+flatbuffers==2.0.7
+sounddevice==0.4.6
