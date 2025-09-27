@@ -3,6 +3,12 @@ import mediapipe as mp
 import numpy as np
 import pickle
 import os
+
+# ✅ ADD THESE LINES AT THE VERY TOP
+os.environ['OPENCV_IO_ENABLE_OPENEXR'] = '0'
+os.environ['OPENCV_VIDEOIO_PRIORITY_MSMF'] = '0'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 from sklearn.metrics import accuracy_score, f1_score, precision_recall_fscore_support, hamming_loss, jaccard_score
 import pandas as pd
 
